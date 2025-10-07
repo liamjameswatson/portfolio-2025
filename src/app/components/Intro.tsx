@@ -1,14 +1,24 @@
 "use client";
-import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { BsArrowRight, BsGithub, BsLinkedin } from "react-icons/bs";
 import { HiDownload } from "react-icons/hi";
 
+import useSectionInView from "../lib/hooks/useSectionInView";
+import { useActiveSectionContext } from "../context/active-section-context";
+
 function Intro() {
+  const ref = useSectionInView({ sectionName: "Home", threshold: 0.5 });
+
+  const { setActiveSection, setTimeOfLastClick } = useActiveSectionContext();
+
   return (
-    <section className="mb-28 max-w-[50rem] text-center sm:mb-0">
+    <section
+      ref={ref}
+      className="mb-28 max-w-[50rem] text-center sm:mb-0 scroll-mt-40"
+      id="home"
+    >
       {/* IMAGE */}
       <div className="flex items-center justify-center">
         <div className="relative">
@@ -43,7 +53,7 @@ function Intro() {
         </div>
       </div>
       {/* WRITING */}
-      <motion.p
+      <motion.h1
         className="mb-10 mt-4 text-2xl font-medium leading-[1.5] sm:text-xl"
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
@@ -54,7 +64,7 @@ function Intro() {
         <span className="italic">Next.js</span> from sunny Devon 🌞. I also
         train AI models to write code.{" "}
         <span className="italic">Always open to exciting projects.</span>
-      </motion.p>
+      </motion.h1>
 
       {/* Links */}
       <motion.div
@@ -69,13 +79,18 @@ function Intro() {
           href="#contact"
           className="group bg-gray-900 text-white px-7 py-3 flex items-center gap-2 rounded-full
           outline-none focus:scale-110 hover:scale-110 hover:bg-gray-950 active:scale-105 transition"
+          onClick={() => {
+            setActiveSection("Contact");
+            setTimeOfLastClick(Date.now());
+          }}
         >
           Contact me here
           <BsArrowRight className="opacity-70 group-hover:translate-x-1" />
         </Link>
 
         <a
-          className="group bg-white px-7 py-3 flex items-center gap-2 rounded-full  outline-none focus:scale-110 hover:scale-110 active:scale-105 transition cursor-pointer border border-black/10"
+          className="group bg-white px-7 py-3 flex items-center gap-2 rounded-full  outline-none focus:scale-110 hover:scale-110 active:scale-105 transition cursor-pointer border border-black/10 
+          dark:bg-white/10 "
           href="/CV.pdf"
           download={true}
         >
@@ -86,7 +101,9 @@ function Intro() {
         <a
           href="https://www.linkedin.com/in/liam-watson-a9845b257/"
           target="_blank"
-          className="bg-white p-4 text-gray-700 flex items-center gap-2 rounded-full focus:scale-110 hover:scale-[1.15] active:scale-[1.15] hover:text-gray-950 transition cursor-pointer border border-black/10"
+          className="bg-white p-4 text-gray-700 flex items-center gap-2 rounded-full focus:scale-110 hover:scale-[1.15] active:scale-[1.15] hover:text-gray-950 transition cursor-pointer border border-black/10
+          
+          dark:bg-white/10 dark:text-white/60 dark:hover:text-white"
         >
           <BsLinkedin />
         </a>
@@ -94,7 +111,9 @@ function Intro() {
         <a
           href="https://github.com/liamjameswatson"
           target="_blank"
-          className="bg-white p-4 text-gray-700 flex items-center gap-2 rounded-full focus:scale-110 hover:scale-[1.15] active:scale-[1.15] hover:text-gray-950 transition cursor-pointer border border-black/10"
+          className="bg-white p-4 text-gray-700 flex items-center gap-2 rounded-full focus:scale-110 hover:scale-[1.15] active:scale-[1.15] hover:text-gray-950 transition cursor-pointer border border-black/10
+          dark:bg-white/10 dark:text-white/60 dark:hover:text-white
+          "
         >
           <BsGithub />
         </a>
